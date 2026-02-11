@@ -6,17 +6,17 @@ export default function Projects() {
             id: 1,
             title: "E-Commerce Dashboard",
             description: "Large scale management system.",
-            image: "/project3.jpg", // Gamitin ang tamang path ng image mo
-            liveLink: "#",
-            tech: ["#React", "#Tailwind"]
+            image: "/ecommerce.png", // Gamitin ang tamang path ng image mo
+            liveLink: "http://localhost/sot/user/user_dashboard.php",
+            tech: ["#MySql", "#Css", "#PHP"]
         },
         {
             id: 2,
-            title: "Social Media App",
-            description: "Real-time communication platform.",
-            image: "/project2.jpg", // Gamitin ang tamang path ng image mo
-            liveLink: "#",
-            tech: ["#Vue", "#Laravel"]
+            title: "Registrar Electronic Logbook",
+            description: "Real-time logging platform.",
+            image: "/logbookproj.png", // Gamitin ang tamang path ng image mo
+            liveLink: "http://localhost/registrar-electronic-logbook/login.php",
+            tech: ["#MySQL", "#CSS", "#PHP"]
         },
         {
             id: 3,
@@ -24,7 +24,7 @@ export default function Projects() {
             description: "Efficient task management system.", // Updated Description
             image: "/todolist.png", // Palitan mo ito ng screenshot ng To-Do list mo
             liveLink: "https://to-do-list-rho-sable-68.vercel.app/", // Ang Vercel link mo
-            tech: ["#React", "#JavaScript"]
+            tech: ["#React", "#TailwindCSS"] // Updated Tech Stack
         }
     ];
 
