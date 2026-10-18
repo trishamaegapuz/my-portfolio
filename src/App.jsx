@@ -1,36 +1,51 @@
-import React, { useEffect } from 'react';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
-// Component Imports
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import About from './components/About';
-import Skills from './components/Skills';
-import Projects from './components/Projects';
-import Certificates from './components/Certificates'; // DINAGDAG ITO
-import Contact from './components/Contact';
-import Footer from './components/Footer';
+import { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
+
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import About from "./components/About";
+import Skills from "./components/Skills";
+import Projects from "./components/Projects";
+import Experience from "./components/Experience";
+import Certificates from "./components/Certificates";
+import Contact from "./components/Contact";
+import Footer from "./components/Footer";
 
 export default function App() {
-  // Initialize AOS (Animate on Scroll)
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
     AOS.init({
-      duration: 1000,
+      duration: prefersReducedMotion ? 0 : 750,
       once: true,
-      easing: 'ease-in-out',
+      offset: 70,
+      easing: "ease-out-cubic",
+      disable: prefersReducedMotion,
     });
+
+    return () => {
+      AOS.refreshHard();
+    };
   }, []);
 
   return (
-    <div className="bg-[#0f0715] min-h-screen font-sans selection:bg-purple-500 selection:text-white">
+    <div className="min-h-screen overflow-x-clip">
       <Navbar />
-      <Hero />
-      <About />
-      <Skills />
-      <Projects />
-      <Certificates /> {/* DINAGDAG ITO PARA LUMABAS SA SCREEN */}
-      <Contact />
+
+      <main>
+        <Hero />
+        <About />
+        <Skills />
+        <Projects />
+        <Experience />
+        <Certificates />
+        <Contact />
+      </main>
+
       <Footer />
     </div>
   );
