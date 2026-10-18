@@ -1,4 +1,567 @@
+
 @import "tailwindcss";
+
+/* ========================================
+   THEME & GLOBAL SETTINGS
+======================================== */
+
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  color: #f1f5f9;
+  background: #080d1b;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --color-background: #080d1b;
+  --color-surface: #10182b;
+  --color-primary: #a78bfa;
+  --color-secondary: #67e8f9;
+  --color-text: #f1f5f9;
+  --color-muted: #a5b4cc;
+  --color-border: rgba(148, 163, 184, 0.16);
+
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --motion-fast: 220ms;
+  --motion-normal: 400ms;
+  --motion-slow: 700ms;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+  background: var(--color-background);
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  color: var(--color-text);
+  background:
+    radial-gradient(
+      ellipse at 15% 0%,
+      rgba(109, 40, 217, 0.14),
+      transparent 38%
+    ),
+    radial-gradient(
+      ellipse at 90% 35%,
+      rgba(8, 145, 178, 0.055),
+      transparent 32%
+    ),
+    var(--color-background);
+  overflow-x: clip;
+}
+
+body,
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+::selection {
+  color: #ffffff;
+  background: rgba(139, 92, 246, 0.65);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 4px;
+}
+
+/* ========================================
+   REUSABLE LAYOUT
+======================================== */
+
+.section-wrap {
+  width: min(100% - 2rem, 1152px);
+  margin-inline: auto;
+}
+
+.section-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.9rem;
+  color: var(--color-secondary);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.section-heading {
+  color: var(--color-text);
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.soft-card {
+  border: 1px solid var(--color-border);
+  border-radius: 1.25rem;
+  background: rgba(16, 24, 43, 0.76);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition:
+    border-color var(--motion-normal) ease,
+    transform var(--motion-normal) var(--ease-smooth),
+    box-shadow var(--motion-normal) ease,
+    background var(--motion-normal) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .soft-card:hover {
+    border-color: rgba(167, 139, 250, 0.4);
+    background: rgba(19, 27, 48, 0.9);
+    box-shadow:
+      0 22px 55px rgba(0, 0, 0, 0.22),
+      0 0 28px rgba(139, 92, 246, 0.055);
+    transform: translateY(-4px);
+  }
+}
+
+/* ========================================
+   REVEAL ANIMATIONS
+   Add these classes to elements when needed.
+======================================== */
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 32px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes reveal-left {
+  from {
+    opacity: 0;
+    transform: translate3d(-32px, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes reveal-right {
+  from {
+    opacity: 0;
+    transform: translate3d(32px, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes reveal-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.reveal-up {
+  animation: reveal-up 750ms var(--ease-smooth) both;
+}
+
+.reveal-left {
+  animation: reveal-left 750ms var(--ease-smooth) both;
+}
+
+.reveal-right {
+  animation: reveal-right 750ms var(--ease-smooth) both;
+}
+
+.reveal-scale {
+  animation: reveal-scale 700ms var(--ease-smooth) both;
+}
+
+/* Stagger helpers for groups of items */
+
+.stagger-children > * {
+  animation: reveal-up 650ms var(--ease-smooth) both;
+}
+
+.stagger-children > *:nth-child(1) {
+  animation-delay: 80ms;
+}
+
+.stagger-children > *:nth-child(2) {
+  animation-delay: 160ms;
+}
+
+.stagger-children > *:nth-child(3) {
+  animation-delay: 240ms;
+}
+
+.stagger-children > *:nth-child(4) {
+  animation-delay: 320ms;
+}
+
+.stagger-children > *:nth-child(5) {
+  animation-delay: 400ms;
+}
+
+.stagger-children > *:nth-child(6) {
+  animation-delay: 480ms;
+}
+
+/* ========================================
+   AMBIENT MOTION
+======================================== */
+
+@keyframes ambient-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -12px, 0);
+  }
+}
+
+@keyframes ambient-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    scale: 0.96;
+  }
+
+  50% {
+    opacity: 0.85;
+    scale: 1.05;
+  }
+}
+
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes soft-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes cursor-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.ambient-float {
+  animation: ambient-float 6s ease-in-out infinite;
+}
+
+.ambient-pulse {
+  animation: ambient-pulse 5s ease-in-out infinite;
+}
+
+.gradient-shift {
+  background-size: 200% auto;
+  animation: gradient-shift 6s ease-in-out infinite;
+}
+
+.soft-spin {
+  animation: soft-spin 28s linear infinite;
+}
+
+.cursor-blink {
+  animation: cursor-blink 900ms steps(1) infinite;
+}
+
+/* ========================================
+   INTERACTIVE HOVER EFFECTS
+======================================== */
+
+.hover-lift {
+  transition:
+    transform 350ms var(--ease-smooth),
+    border-color 300ms ease,
+    box-shadow 350ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hover-lift:hover {
+    transform: translateY(-7px);
+  }
+}
+
+.hover-glow {
+  transition:
+    box-shadow 350ms ease,
+    border-color 350ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hover-glow:hover {
+    border-color: rgba(103, 232, 249, 0.38);
+    box-shadow:
+      0 12px 38px rgba(0, 0, 0, 0.2),
+      0 0 25px rgba(103, 232, 249, 0.07);
+  }
+}
+
+.image-zoom {
+  overflow: hidden;
+}
+
+.image-zoom img {
+  transition: transform 700ms var(--ease-smooth);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .image-zoom:hover img {
+    transform: scale(1.055);
+  }
+}
+
+.icon-bounce {
+  transition: transform 300ms var(--ease-smooth);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  a:hover .icon-bounce,
+  button:hover .icon-bounce {
+    transform: translateX(4px);
+  }
+}
+
+/* Animated gradient text helper */
+
+.gradient-text {
+  background-image: linear-gradient(
+    110deg,
+    #c4b5fd,
+    #f0abfc,
+    #67e8f9,
+    #c4b5fd
+  );
+  background-size: 250% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .gradient-text {
+    animation: gradient-shift 8s ease-in-out infinite;
+  }
+}
+
+/* ========================================
+   CAROUSEL UTILITIES
+======================================== */
+
+.horizontal-carousel {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.horizontal-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.horizontal-carousel > * {
+  scroll-snap-align: start;
+}
+
+/* ========================================
+   SCROLLBAR
+======================================== */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(139, 92, 246, 0.4) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: rgba(139, 92, 246, 0.4);
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(103, 232, 249, 0.55);
+  background-clip: padding-box;
+}
+
+/* ========================================
+   ACCESSIBILITY
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal-up,
+  .reveal-left,
+  .reveal-right,
+  .reveal-scale,
+  .stagger-children > * {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 640px) {
+  .section-wrap {
+    width: min(100% - 1.5rem, 1152px);
+  }
+
+  .section-kicker {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+  }
+
+  .horizontal-carousel {
+    gap: 1rem;
+  }
+
+  .soft-card {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+}
+
+
+/* ========================================
+   PORTFOLIO SPACING REFINEMENT
+======================================== */
+
+/* Keep section headings clear of the fixed navbar */
+html {
+  scroll-padding-top: 88px;
+}
+
+main > section:not(#home) {
+  scroll-margin-top: 88px;
+  padding-block: clamp(2.75rem, 5vw, 4rem) !important;
+}
+
+/* Keep content centered without wasting horizontal space */
+.section-wrap {
+  width: min(100% - 2.5rem, 1152px);
+  margin-inline: auto;
+}
+
+/* Reduce unnecessary space between section headings and content */
+.section-heading {
+  margin-bottom: 0;
+  line-height: 1.12;
+}
+
+/* More compact spacing on smaller screens */
+@media (max-width: 640px) {
+  html {
+    scroll-padding-top: 76px;
+  }
+
+  main > section:not(#home) {
+    scroll-margin-top: 76px;
+    padding-block: 2.5rem !important;
+  }
+
+  .section-wrap {
+    width: min(100% - 1.5rem, 1152px);
+  }
+}
+
+/* Avoid excessive movement for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
